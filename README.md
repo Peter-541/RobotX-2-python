@@ -12,7 +12,7 @@
 2. Si tienes problemas para instalar la librería, asegúrate de que pip esté actualizado ejecutando el comando `pip install --upgrade pip`.
 
 ## Descargar el webdriver para el Navegador Chrome
-1. Visita la página de descargas de ChromeDriver en https://sites.google.com/a/chromium.org/chromedriver/downloads
+1. Visita la página de descargas de ChromeDriver en https://sites.google.com/a/chromium.org/chromedriver/downloads o https://chromedriver.chromium.org/ para versiones mas recientes de Chrome.
 2. Descarga la versión correspondiente del ChromeDriver para tu sistema operativo.
 3. Descomprime el archivo descargado y colócalo en una ubicación accesible en tu sistema.
 
