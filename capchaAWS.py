@@ -29,8 +29,8 @@ options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option("useAutomationExtension", False)
 
 #Creamos variables con las credenciales de acceso al AWS
-USSER = 'carlos.rabadan@gmail.com'
-PASS = 'Rabax9858781108$#$'
+USSER = '*******'
+PASS = '*******'
 
 # Creamos una función que realiza el proceso de subir una imagen y obtener el texto del captcha
 def capchaUpload(name_img):
@@ -99,11 +99,6 @@ def capchaUpload(name_img):
                     driver.quit()
                     return capcha_text
                     
-                    #except Exception:
-                        #capcha_text = False
-                        #driver.quit()
-                        #return capcha_text
-                    
     except NoSuchElementException:    
                     # Una vez iniciada la sesión, se hace busca el elemento del botón de carga de imagen
                     btn_upload = driver.find_element(By.XPATH,'//*[@id="app"]/div/div/div/div/div/main/div/div/div/div/div[2]/div[2]/div/div[1]/div/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[2]/div/div/button')
@@ -135,8 +130,4 @@ def capchaUpload(name_img):
                     #print(capcha_text)
                     driver.quit()
                     return capcha_text
-
-                    #except Exception:
-                        #capcha_text = False
-                        #driver.quit()
-                        #return capcha_text
+         
