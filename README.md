@@ -15,6 +15,10 @@
 1. Ejecuta el siguiente comando en la línea de comandos: `pip install pyautogui`
 2. Espera a que se descarguen e instalen todas las dependencias.
 
+## Instalar la libreria Requests, puedes seguir los siguientes pasos:
+1. Ejecuta el siguiente comando en la línea de comandos: `pip install requests`
+2. Espera a que se descarguen e instalen todas las dependencias.
+
 ## Descargar el webdriver para el Navegador Chrome
 1. Visita la página de descargas de ChromeDriver en https://sites.google.com/a/chromium.org/chromedriver/downloads o https://chromedriver.chromium.org/ para versiones mas recientes de Chrome.
 2. Descarga la versión correspondiente del ChromeDriver para tu sistema operativo.
