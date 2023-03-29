@@ -2,13 +2,10 @@
 # https://apexapi.xternall.com/ords/f?p=159:252:0:::252:P252_INICIO,P252_FIN:51,60
 #APi link XTERNALL RobotX-9
 # https://apexapi.xternall.com/ords/f?p=159:252:0:::252:P252_INICIO,P252_FIN:1,10
-
 #PAGE URL Consulta del SAT
 # https://verificacfdi.facturaelectronica.sat.gob.mx/
-
 #PAGE URL AWS
 #https://us-east-2.console.aws.amazon.com/rekognition/home?region=us-east-2#/text-detection
-
 #PAGE XTERNAL COMPROBATION
 # https://apexapi.xternall.com/ords/f?p=159:276:::::P276_ID:
 
@@ -26,8 +23,6 @@ PATH = "C:\\Users\\Omar\\Documents\\Projects\\Automatization-python\\chromedrive
 options = webdriver.ChromeOptions()
 options.add_argument('--normal-page')
 options.add_argument('--start-maximized')
-#options.add_argument("--user-data-dir=chrome-data")
-#options.add_argument("--profile-directory=Default")
 
 # Inicializamos el WebDriver de Chrome
 driver = webdriver.Chrome(options=options)
