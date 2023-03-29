@@ -12,8 +12,6 @@ import capchaAWS # Esta es una librería personalizada que nos permite llamar lo
 options = webdriver.ChromeOptions()
 options.add_argument('--normal-page')
 options.add_argument('--start-maximized')
-#options.add_argument("--user-data-dir=chrome-data")
-#options.add_argument("--profile-directory=Default")
 
 # Función para consultar una factura en el portal del SAT
 def consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id):
