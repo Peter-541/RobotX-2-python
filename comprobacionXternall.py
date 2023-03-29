@@ -12,8 +12,6 @@ import pyautogui
 options = webdriver.ChromeOptions()
 options.add_argument('--normal-page')
 options.add_argument('--start-maximized')
-#options.add_argument("--user-data-dir=chrome-data")
-#options.add_argument("--profile-directory=Default")
 
 def compobationXternall(fiscal_id,name_ss,id):
     # Inicializamos el driver de Selenium con las opciones configuradas
