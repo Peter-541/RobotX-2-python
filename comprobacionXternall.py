@@ -40,5 +40,5 @@ def compobationXternall(fiscal_id,name_ss,id):
     pyautogui.press('enter') # Presiona la tecla Enter para hacer clic en el botón "Abrir"
     time.sleep(2) # Espera un segundo para que se cargue la página web
     btn_ok.click()
-    time.sleep(6)
+    time.sleep(5)
     driver.close()
