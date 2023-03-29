@@ -1,10 +1,8 @@
 #Importamos las librerías necesarias de Selenium
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 import requests
 import time
 import comprobacionXternall
@@ -25,15 +23,15 @@ def consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id):
     # Nos dirigimos al portal del SAT
     driver.get('https://verificacfdi.facturaelectronica.sat.gob.mx/')
     time.sleep(1) # Esperamos un segundo para que cargue la página
-
-     # Localizamos los elementos de la página que necesitamos interactuar
+       
+    # Localizamos los elementos de la página que necesitamos interactuar
     input_fiscal_ID = driver.find_element(By.ID,"ctl00_MainContent_TxtUUID")
     input_RFC_emi = driver.find_element(By.ID,"ctl00_MainContent_TxtRfcEmisor")
     input_RFC_rcp = driver.find_element(By.ID,"ctl00_MainContent_TxtRfcReceptor")
-    input_imgCapcha = driver.find_element(By.ID,"ctl00_MainContent_ImgCaptcha") 
+    input_imgCapcha = driver.find_element(By.ID,"ctl00_MainContent_ImgCaptcha")
     input_capcha = driver.find_element(By.ID,"ctl00_MainContent_TxtCaptchaNumbers")
     btn_verificar = driver.find_element(By.ID,"ctl00_MainContent_BtnBusqueda")
-    time.sleep(2) # Esperamos dos segundos para asegurarnos de que todos los elementos hayan cargado
+    time.sleep(1) # Esperamos dos segundos para asegurarnos de que todos los elementos hayan cargado
 
      # Introducimos la información de la factura en los campos correspondientes
     input_fiscal_ID.click() # Hacemos clic en el campo de ID fiscal
@@ -51,26 +49,35 @@ def consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id):
         with open(name_img, 'wb') as img: 
             img.write(img_capcha.content)  # Escribimos la imagen CAPTCHA en el archivo correspondiente
             img.close
-
-    time.sleep(2) # Esperamos dos segundos
+    time.sleep(1) # Esperamos un segundo
     
     # Utilizamos la funcion de la libreria que antes importamos 
     capcha = capchaAWS.capchaUpload(name_img) # Guardamos el capcha ya procesado de la imagen en forma de texto
+    #print(capcha)
+
+    #if capcha == False:
+        #driver.quit()
+    
+    time.sleep(1)
     input_capcha.send_keys(capcha) # Introducimos el texto de la imagen
     time.sleep(1)
+    btn_verificar.click() #Enviamos los datos para consultar
+    time.sleep(2)
+    name_ss = id+'.png'
+    # Encontrar un elemento en la página para activar el foco
+    elem = driver.find_element(By.TAG_NAME,"body")
+    elem.click()
 
-    driver.execute_script("document.body.style.zoom='90%'") #Mediante un scrip disminuimos en 90% el zoom de la pagina
-    time.sleep(1.5)
-
-    name_ss = id+'.png' 
+    # Crear objeto de la clase ActionChains
+    actions = ActionChains(driver)
+    actions.send_keys(Keys.PAGE_DOWN).perform()
+    time.sleep(2)
+    
     driver.save_screenshot(name_ss) #Tomamos una captura 
-    btn_verificar.submit() #Enviamos los datos para consultar
     time.sleep(2)
-    driver.close() #Cerramos la pagina
-
-    comprobacionXternall.compobationXternall(fiscal_id,name_ss)
+    driver.quit() #Cerramos la pagina
+    comprobacionXternall.compobationXternall(fiscal_id,name_ss,id)
     time.sleep(2)
-
     
     
 

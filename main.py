@@ -14,12 +14,8 @@
 
 #Importamos las librerías necesarias de Selenium
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-import requests
 import time
 import facturaElectronica # Esta es una librería personalizada que nos permite llamar los metodos del scrip factuarElectronica
 
@@ -40,7 +36,7 @@ driver = webdriver.Chrome(options=options)
 while 1 == 1:
     # Accedemos al api para consultar los datos 
     driver.get('https://apexapi.xternall.com/ords/f?p=159:252:0:::252:P252_INICIO,P252_FIN:1,10')
-    time.sleep(5) #Espera 5 seg mientras craga la página 
+    time.sleep(3) #Espera 3 seg mientras carga la página 
     
     i = 1 #Creamos un acumulador 
 
@@ -67,8 +63,23 @@ while 1 == 1:
                 rfc_rcp = data[i][3]
                 fiscal_id = data[i][4]
                 i = i + 1
+            #print('Fila:'+str(i-1))
             #print(id, rfc_emi, rfc_rcp, fiscal_id)
-            facturaElectronica.consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id)
+            try:
+                facturaElectronica.consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id)
+            except Exception:
+                # guardar la ventana actual
+                main_window = driver.current_window_handle
+                # obtener todos los identificadores de ventana
+                all_windows = driver.window_handles
+                # cerrar todas las ventanas excepto la actual
+                for window in all_windows:
+                    if window != main_window:
+                        driver.switch_to.window(window)
+                        driver.close()
+                # cambiar el enfoque de la ventana de vuelta a la ventana principal
+                driver.switch_to.window(main_window)
+                facturaElectronica.consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id)
 
         time.sleep(3)
         driver.close() # Cerramos la pagina web
@@ -76,4 +87,3 @@ while 1 == 1:
         #En caso de nos existir una tabla con datos se refresca la pagina hasta que se encuentren nuevamente los datos
         time.sleep(5)
         driver.refresh()
-
