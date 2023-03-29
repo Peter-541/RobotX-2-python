@@ -52,9 +52,6 @@ def consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id):
     # Utilizamos la funcion de la libreria que antes importamos 
     capcha = capchaAWS.capchaUpload(name_img) # Guardamos el capcha ya procesado de la imagen en forma de texto
     #print(capcha)
-
-    #if capcha == False:
-        #driver.quit()
     
     time.sleep(1)
     input_capcha.send_keys(capcha) # Introducimos el texto de la imagen
@@ -62,6 +59,7 @@ def consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id):
     btn_verificar.click() #Enviamos los datos para consultar
     time.sleep(2)
     name_ss = id+'.png'
+    
     # Encontrar un elemento en la página para activar el foco
     elem = driver.find_element(By.TAG_NAME,"body")
     elem.click()
