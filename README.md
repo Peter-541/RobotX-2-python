@@ -7,9 +7,13 @@
 
 ### Para verificar que Python se ha instalado correctamente, abre la línea de comandos y escribe `python --version`. Debería aparecer la versión de Python que acabas de instalar.
 
-## Instalar la librería de Selenium
-1. Abre la línea de comandos y escribe pip install selenium para instalar la librería de Selenium en tu sistema.
+## Instalar la librería de Selenium, puedes seguir los siguientes pasos:
+1. Abre la línea de comandos y escribe `pip install selenium` para instalar la librería de Selenium en tu sistema.
 2. Si tienes problemas para instalar la librería, asegúrate de que pip esté actualizado ejecutando el comando `pip install --upgrade pip`.
+
+## Instalar la libreria PyAutoGUI, puedes seguir los siguientes pasos:
+1. Ejecuta el siguiente comando en la línea de comandos: `pip install pyautogui`
+2. Espera a que se descarguen e instalen todas las dependencias.
 
 ## Descargar el webdriver para el Navegador Chrome
 1. Visita la página de descargas de ChromeDriver en https://sites.google.com/a/chromium.org/chromedriver/downloads o https://chromedriver.chromium.org/ para versiones mas recientes de Chrome.

@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException
 import requests
 import time
 import comprobacionXternall
@@ -12,8 +13,6 @@ import capchaAWS # Esta es una librería personalizada que nos permite llamar lo
 options = webdriver.ChromeOptions()
 options.add_argument('--normal-page')
 options.add_argument('--start-maximized')
-#options.add_argument("--user-data-dir=chrome-data")
-#options.add_argument("--profile-directory=Default")
 
 # Función para consultar una factura en el portal del SAT
 def consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id):
@@ -21,6 +20,7 @@ def consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id):
     driver = webdriver.Chrome(options=options)
 
     # Nos dirigimos al portal del SAT
+    # driver.execute_script("window.open('');")
     driver.get('https://verificacfdi.facturaelectronica.sat.gob.mx/')
     time.sleep(1) # Esperamos un segundo para que cargue la página
        
@@ -54,30 +54,50 @@ def consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id):
     # Utilizamos la funcion de la libreria que antes importamos 
     capcha = capchaAWS.capchaUpload(name_img) # Guardamos el capcha ya procesado de la imagen en forma de texto
     #print(capcha)
-
-    #if capcha == False:
-        #driver.quit()
-    
-    time.sleep(1)
+    #time.sleep(1)
     input_capcha.send_keys(capcha) # Introducimos el texto de la imagen
-    time.sleep(1)
-    btn_verificar.click() #Enviamos los datos para consultar
     time.sleep(2)
-    name_ss = id+'.png'
-    # Encontrar un elemento en la página para activar el foco
-    elem = driver.find_element(By.TAG_NAME,"body")
-    elem.click()
-
-    # Crear objeto de la clase ActionChains
-    actions = ActionChains(driver)
-    actions.send_keys(Keys.PAGE_DOWN).perform()
-    time.sleep(2)
-    
-    driver.save_screenshot(name_ss) #Tomamos una captura 
-    time.sleep(2)
-    driver.quit() #Cerramos la pagina
-    comprobacionXternall.compobationXternall(fiscal_id,name_ss,id)
-    time.sleep(2)
-    
+    try:
+        error_capcha = driver.find_element(By.XPATH,'//*[@id="ctl00_MainContent_pnlErrorCaptcha"]')
+        error = error_capcha.text
+        
+        if error_capcha:
+            print(error)
+            driver.close()
+            driver.quit()
+        else:
+            btn_verificar.click() #Enviamos los datos para consultar
+            time.sleep(1)
+            name_ss = id+'.png'
+            # Encontrar un elemento en la página para activar el foco
+            elem = driver.find_element(By.TAG_NAME,"body")
+            elem.click()
+            # Crear objeto de la clase ActionChains
+            actions = ActionChains(driver)
+            actions.send_keys(Keys.PAGE_DOWN).perform()
+            time.sleep(1)
+            driver.save_screenshot(name_ss) #Tomamos una captura 
+            time.sleep(1)
+            driver.close()
+            driver.quit() #Cerramos la pagina
+            comprobacionXternall.compobationXternall(fiscal_id,name_ss,id)   
+       
+    except NoSuchElementException:
+        btn_verificar.click() #Enviamos los datos para consultar
+        time.sleep(1)
+        name_ss = id+'.png'
+        # Encontrar un elemento en la página para activar el foco
+        elem = driver.find_element(By.TAG_NAME,"body")
+        elem.click()
+        # Crear objeto de la clase ActionChains
+        actions = ActionChains(driver)
+        actions.send_keys(Keys.PAGE_DOWN).perform()
+        time.sleep(1)
+        driver.save_screenshot(name_ss) #Tomamos una captura 
+        time.sleep(1)
+        driver.close() #Cerramos la pagina
+        driver.quit()
+        comprobacionXternall.compobationXternall(fiscal_id,name_ss,id)
+        time.sleep(1)    
     
 
