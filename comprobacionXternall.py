@@ -27,18 +27,20 @@ def compobationXternall(fiscal_id,name_ss,id):
     btn_ok = driver.find_element(By.XPATH,'//*[@id="B300968115005400343"]') 
 
     input_folio.send_keys(fiscal_id) 
-    time.sleep(2)
+    time.sleep(1)
     input_img.click()
     time.sleep(2) 
-    archivo = 'C:\\Users\\Omar\\Documents\\Projects\\Automatization-python\\'+name_ss
-    pyautogui.write(archivo) # Escribe la ruta del archivo en la ventana de subir archivos
+    #archivo = 'C:\\Users\\GTIM\\Documents\\Robots\\RobotX-2-python-main\\'+name_ss
+    path = 'C:\\Users\\GTIM\\Documents\\Robots\\RobotX-2-python-main\\'+name_ss
+    pyautogui.write(path)# Escribe la ruta del archivo en la ventana de subir archivos
     time.sleep(1)
     pyautogui.press('enter') # Presiona la tecla Enter para seleccionar el archivo
     time.sleep(1)
     pyautogui.press('tab') # Navega hasta el botón "Abrir"
     time.sleep(1)
     pyautogui.press('enter') # Presiona la tecla Enter para hacer clic en el botón "Abrir"
-    time.sleep(2) # Espera un segundo para que se cargue la página web
-    btn_ok.click()
-    time.sleep(5)
+    time.sleep(1) # Espera un segundo para que se cargue la página web
+    btn_ok.
+    time.sleep(3)
     driver.close()
+    driver.quit()
