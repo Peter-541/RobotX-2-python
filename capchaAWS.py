@@ -29,8 +29,9 @@ options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option("useAutomationExtension", False)
 
 #Creamos variables con las credenciales de acceso al AWS
-USSER ='carlos.rabadan@gmail.com'
-PASS = 'Rabax9858781108$#$'
+USSER = '*******'
+PASS = '*******'
+
 
 # Creamos una función que realiza el proceso de subir una imagen y obtener el texto del captcha
 def capchaUpload(name_img):
@@ -70,6 +71,7 @@ def capchaUpload(name_img):
             btn_login.click()
             time.sleep(2)
                         
+
             # Una vez iniciada la sesión, se hace busca el elemento del botón de carga de imagen
             btn_upload = driver.find_element(By.XPATH,'//*[@id="app"]/div/div/div/div/div/main/div/div/div/div/div[2]/div[2]/div/div[1]/div/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[2]/div/div/button')
 
@@ -99,12 +101,13 @@ def capchaUpload(name_img):
 
             #print(capcha_text)
             driver.close()
+            driver.quit()
             return capcha_text
         else:
             print('No se inicio sesion en AWS')
             driver.close()
             driver.quit()
-                            
+             
     except NoSuchElementException:    
         # Una vez iniciada la sesión, se hace busca el elemento del botón de carga de imagen
         btn_upload = driver.find_element(By.XPATH,'//*[@id="app"]/div/div/div/div/div/main/div/div/div/div/div[2]/div[2]/div/div[1]/div/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[2]/div/div/button')
@@ -112,7 +115,7 @@ def capchaUpload(name_img):
         # Hacemos scroll para mostrar el botón de carga de imagen y luego hacemos clic en él
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(1)
-                   
+               
         btn_upload.click()
         time.sleep(2) # Espera un segundo para que aparezca la ventana de subir archivos
         archivo = 'C:\\Users\\GTIM\\Documents\\Robots\\RobotX-2-python-main\\'+name_img
@@ -136,3 +139,4 @@ def capchaUpload(name_img):
         driver.close()
         driver.quit()
         return capcha_text
+        

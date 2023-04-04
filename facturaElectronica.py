@@ -57,6 +57,7 @@ def consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id):
     #time.sleep(1)
     input_capcha.send_keys(capcha) # Introducimos el texto de la imagen
     time.sleep(2)
+
     try:
         error_capcha = driver.find_element(By.XPATH,'//*[@id="ctl00_MainContent_pnlErrorCaptcha"]')
         error = error_capcha.text
@@ -99,5 +100,3 @@ def consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id):
         driver.quit()
         comprobacionXternall.compobationXternall(fiscal_id,name_ss,id)
         time.sleep(1)    
-    
-
