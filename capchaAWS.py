@@ -2,6 +2,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 import pyautogui
 
@@ -34,6 +36,8 @@ PASS = 'Rabax9858781108$#$'
 
 # Creamos una función que realiza el proceso de subir una imagen y obtener el texto del captcha
 def capchaUpload(name_img):
+    capcha_text = ""
+
     # Creamos una instancia del navegador Chrome con las opciones previamente configuradas
     driver = webdriver.Chrome(options=options)
     driver.execute_cdp_cmd("Network.enable", {})
@@ -42,14 +46,14 @@ def capchaUpload(name_img):
 
         # Accedemos a la página de AWS Rekognition Text Detection
     driver.get('https://us-east-2.console.aws.amazon.com/rekognition/home?region=us-east-2#/text-detection')
-    time.sleep(3)
+    time.sleep(2)
             
         # Verificamos si ya inició sesión en AWS a través de un try/except
     try:
         #Si aún no se ha iniciado sesión, se muestra la pantalla de Logeo.
         aws_Session = driver.find_element(By.XPATH,'//*[@id="signin_head"]')
         session = aws_Session.text
-        print(session)
+        #print(session)
 
         # Se ingresan las credenciales y se hace clic en el botón de inicio de sesión
         if session == 'Iniciar sesión' or session == 'Sign in':
@@ -71,15 +75,17 @@ def capchaUpload(name_img):
             time.sleep(2)
                         
             # Una vez iniciada la sesión, se hace busca el elemento del botón de carga de imagen
-            btn_upload = driver.find_element(By.XPATH,'//*[@id="app"]/div/div/div/div/div/main/div/div/div/div/div[2]/div[2]/div/div[1]/div/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[2]/div/div/button')
-
+            #btn_upload = driver.find_element(By.XPATH,'//*[@id="app"]/div/div/div/div/div/main/div/div/div/div/div[2]/div[2]/div/div[1]/div/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[2]/div/div/button')
+            wait = WebDriverWait(driver, 2)
+            btn_upload = wait.until(EC.presence_of_element_located((By.XPATH,'//*[@id="app"]/div/div/div/div/div/main/div/div/div/div[2]/div[2]/div/div[1]/div/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[2]/div/div/button')))
+            
             # Hacemos scroll para mostrar el botón de carga de imagen y luego hacemos clic en él
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(1)
 
             btn_upload.click()
             time.sleep(2) # Espera un segundo para que aparezca la ventana de subir archivos
-            #archivo = 'C:\\Users\\Omar\\Documents\\Projects\\Automatization-python\\'+name_img
+            #archivo = 'C:\\Users\\GTIM\\Documents\\Robots\\RobotX-2-python-main\\'+name_img
             archivo1 = 'C:\\Users\\Omar\\Documents\\Projects\\Automatization-python\\'+name_img
             pyautogui.write(archivo1) # Escribe la ruta del archivo en la ventana de subir archivos
             time.sleep(1)
@@ -91,23 +97,35 @@ def capchaUpload(name_img):
             time.sleep(2)
                             
             # Obtenemos el texto del captcha
-            out_text = driver.find_element(By.XPATH,'//*[@id="app"]/div/div/div/div/div/main/div/div/div/div/div[2]/div[2]/div/div[2]/div/div/div/div[1]/div[2]')
-            capchas = out_text.find_elements(By.TAG_NAME, "h5")
+            wait = WebDriverWait(driver, 2)
+            try:
+                out_text = wait.until(EC.presence_of_element_located((By.TAG_NAME, 'h5')))
+                capcha_text = out_text.text
+                #out_text = driver.find_element(By.XPATH,'//*[@id="app"]/div/div/div/div/div/main/div/div/div/div/div[2]/div[2]/div/div[2]/div/div/div/div[1]/div[2]')
+                #capchas = out_text.find_elements(By.TAG_NAME, "h5")
 
-            for capcha in capchas:
-                capcha_text = capcha.text
+                #for capcha in capchas:
+                    #capcha_text = capcha.text
 
-            #print(capcha_text)
-            driver.close()
-            return capcha_text
+                #print(capcha_text)
+                driver.close()
+                driver.quit()
+                return capcha_text
+            except NoSuchElementException:
+                driver.close()
+                driver.quit()
+                return capcha_text
         else:
             print('No se inicio sesion en AWS')
             driver.close()
             driver.quit()
                             
-    except NoSuchElementException:    
+    except NoSuchElementException:
+        capcha_tex = ""
         # Una vez iniciada la sesión, se hace busca el elemento del botón de carga de imagen
-        btn_upload = driver.find_element(By.XPATH,'//*[@id="app"]/div/div/div/div/div/main/div/div/div/div/div[2]/div[2]/div/div[1]/div/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[2]/div/div/button')
+        #btn_upload = driver.find_element(By.XPATH,'//*[@id="app"]/div/div/div/div/div/main/div/div/div/div/div[2]/div[2]/div/div[1]/div/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[2]/div/div/button')
+        wait = WebDriverWait(driver, 2)
+        btn_upload = wait.until(EC.presence_of_element_located((By.XPATH,'//*[@id="app"]/div/div/div/div/div/main/div/div/div/div[2]/div[2]/div/div[1]/div/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[2]/div/div/button')))
 
         # Hacemos scroll para mostrar el botón de carga de imagen y luego hacemos clic en él
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -115,8 +133,9 @@ def capchaUpload(name_img):
                    
         btn_upload.click()
         time.sleep(2) # Espera un segundo para que aparezca la ventana de subir archivos
-        archivo = 'C:\\Users\\GTIM\\Documents\\Robots\\RobotX-2-python-main\\'+name_img
-        pyautogui.write(archivo) # Escribe la ruta del archivo en la ventana de subir archivos
+        #archivo = 'C:\\Users\\GTIM\\Documents\\Robots\\RobotX-2-python-main\\'+name_img
+        archivo1 = 'C:\\Users\\Omar\\Documents\\Projects\\Automatization-python\\'+name_img
+        pyautogui.write(archivo1) # Escribe la ruta del archivo en la ventana de subir archivos
         time.sleep(1)
         pyautogui.press('enter') # Presiona la tecla Enter para seleccionar el archivo
         time.sleep(1)
@@ -126,13 +145,21 @@ def capchaUpload(name_img):
         time.sleep(3)
                        
         # Obtenemos el texto del captcha
-        out_text = driver.find_element(By.XPATH,'//*[@id="app"]/div/div/div/div/div/main/div/div/div/div/div[2]/div[2]/div/div[2]/div/div/div/div[1]/div[2]')
-        capchas = out_text.find_elements(By.TAG_NAME, "h5")
+        wait = WebDriverWait(driver, 2)
+        try:
+                out_text = wait.until(EC.presence_of_element_located((By.TAG_NAME, 'h5')))
+                capcha_text = out_text.text
+                #out_text = driver.find_element(By.XPATH,'//*[@id="app"]/div/div/div/div/div/main/div/div/div/div/div[2]/div[2]/div/div[2]/div/div/div/div[1]/div[2]')
+                #capchas = out_text.find_elements(By.TAG_NAME, "h5")
 
-        for capcha in capchas:
-            capcha_text = capcha.text
+                #for capcha in capchas:
+                    #capcha_text = capcha.text
 
-        #print(capcha_text)
-        driver.close()
-        driver.quit()
-        return capcha_text
+                #print(capcha_text)
+                driver.close()
+                driver.quit()
+                return capcha_text
+        except NoSuchElementException:
+                driver.close()
+                driver.quit()
+                return capcha_text

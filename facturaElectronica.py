@@ -50,54 +50,25 @@ def consultaFactura(id,rfc_emi,rfc_rcp,fiscal_id):
             img.write(img_capcha.content)  # Escribimos la imagen CAPTCHA en el archivo correspondiente
             img.close
     time.sleep(1) # Esperamos un segundo
-    
-    # Utilizamos la funcion de la libreria que antes importamos 
-    capcha = capchaAWS.capchaUpload(name_img) # Guardamos el capcha ya procesado de la imagen en forma de texto
-    #print(capcha)
-    #time.sleep(1)
-    input_capcha.send_keys(capcha) # Introducimos el texto de la imagen
-    time.sleep(2)
-    try:
-        error_capcha = driver.find_element(By.XPATH,'//*[@id="ctl00_MainContent_pnlErrorCaptcha"]')
-        error = error_capcha.text
-        
-        if error_capcha:
-            print(error)
-            driver.close()
-            driver.quit()
-        else:
-            btn_verificar.click() #Enviamos los datos para consultar
-            time.sleep(1)
-            name_ss = id+'.png'
-            # Encontrar un elemento en la página para activar el foco
-            elem = driver.find_element(By.TAG_NAME,"body")
-            elem.click()
-            # Crear objeto de la clase ActionChains
-            actions = ActionChains(driver)
-            actions.send_keys(Keys.PAGE_DOWN).perform()
-            time.sleep(1)
-            driver.save_screenshot(name_ss) #Tomamos una captura 
-            time.sleep(1)
-            driver.close()
-            driver.quit() #Cerramos la pagina
-            comprobacionXternall.compobationXternall(fiscal_id,name_ss,id)   
-       
-    except NoSuchElementException:
-        btn_verificar.click() #Enviamos los datos para consultar
-        time.sleep(1)
-        name_ss = id+'.png'
-        # Encontrar un elemento en la página para activar el foco
-        elem = driver.find_element(By.TAG_NAME,"body")
-        elem.click()
-        # Crear objeto de la clase ActionChains
-        actions = ActionChains(driver)
-        actions.send_keys(Keys.PAGE_DOWN).perform()
-        time.sleep(1)
-        driver.save_screenshot(name_ss) #Tomamos una captura 
-        time.sleep(1)
-        driver.close() #Cerramos la pagina
-        driver.quit()
-        comprobacionXternall.compobationXternall(fiscal_id,name_ss,id)
-        time.sleep(1)    
-    
+    capcha = ""
 
+    while capcha == "":
+        # Utilizamos la funcion de la libreria que antes importamos 
+        capcha = capchaAWS.capchaUpload(name_img)# Guardamos el capcha ya procesado de la imagen en forma de te
+
+    input_capcha.send_keys(capcha)
+    time.sleep(1)
+    btn_verificar.click()
+    time.sleep(1)
+    name_ss = id+'.png'
+    elem = driver.find_element(By.TAG_NAME,"body")
+    elem.click()
+    actions = ActionChains(driver)
+    actions.send_keys(Keys.PAGE_DOWN).perform()
+    time.sleep(1)
+    driver.save_screenshot(name_ss)
+    time.sleep(1)
+    driver.close()
+    driver.quit()
+    comprobacionXternall.compobationXternall(fiscal_id,name_ss,id)
+    

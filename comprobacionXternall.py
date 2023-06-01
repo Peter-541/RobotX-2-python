@@ -19,7 +19,7 @@ def compobationXternall(fiscal_id,name_ss,id):
 
     # Nos dirigimos al portal de Xternall
     driver.get('https://apexapi.xternall.com/ords/f?p=159:276:7997459797743::::P276_ID:'+id)
-    time.sleep(3) # Esperamos un segundo para que cargue la página
+    time.sleep(2) # Esperamos dos segundos para que cargue la página
 
     # Localizamos los elementos de la página que necesitamos interactuar
     input_folio = driver.find_element(By.XPATH,'//*[@id="P276_NUM_FOLIO"]')
@@ -30,9 +30,9 @@ def compobationXternall(fiscal_id,name_ss,id):
     time.sleep(1)
     input_img.click()
     time.sleep(2) 
-    #archivo = 'C:\\Users\\GTIM\\Documents\\Robots\\RobotX-2-python-main\\'+name_ss
-    path = 'C:\\Users\\GTIM\\Documents\\Robots\\RobotX-2-python-main\\'+name_ss
-    pyautogui.write(path)# Escribe la ruta del archivo en la ventana de subir archivos
+    path1 = 'C:\\Users\\Omar\\Documents\\Projects\\Automatization-python\\'+name_ss
+    #path = 'C:\\Users\\GTIM\\Documents\\Robots\\RobotX-2-python-main\\'+name_ss
+    pyautogui.write(path1)# Escribe la ruta del archivo en la ventana de subir archivos
     time.sleep(1)
     pyautogui.press('enter') # Presiona la tecla Enter para seleccionar el archivo
     time.sleep(1)
@@ -41,6 +41,6 @@ def compobationXternall(fiscal_id,name_ss,id):
     pyautogui.press('enter') # Presiona la tecla Enter para hacer clic en el botón "Abrir"
     time.sleep(1) # Espera un segundo para que se cargue la página web
     btn_ok.click()
-    time.sleep(3)
+    time.sleep(2)
     driver.close()
     driver.quit()
